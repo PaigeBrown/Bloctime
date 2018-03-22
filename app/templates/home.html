@@ -1,6 +1,7 @@
  <h1>Pomodoro Countdown</h1>
  <section class="container">
         <h1 class="text-center"> {{ home.clock | timecode }} </h1>
+        
     <div class="text-center">
 
         <button type="button" class='btn btn-info btn-lg' ng-show="!home.timerRunning && !home.onBreak"  ng-click="home.startTimer()"> {{ home.buttonMsg }}</button>
