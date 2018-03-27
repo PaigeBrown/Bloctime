@@ -1,5 +1,5 @@
 (function() {
-    function HomeCtrl($firebaseArray, $interval) {
+    function HomeCtrl($firebaseArray, $interval, $scope) {
       this.clock = 2;
       this.onBreak = false;
 
@@ -57,10 +57,20 @@
           }
         }.bind(this), 1000);
       }
+
+      var mySound = new buzz.sound( "/assets/music/Ding.mp3", {
+        preload: true
+      });
+
+      $scope.$watch('this.clock', function(clock){
+        if(this.clock == 0){
+          mySound.play();
+        }
+      });
     }
 
 
     angular
         .module('Bloctime')
-        .controller('HomeCtrl', ['$firebaseArray', '$interval', HomeCtrl]);
+        .controller('HomeCtrl', ['$scope', '$firebaseArray', '$interval', HomeCtrl]);
 })();
