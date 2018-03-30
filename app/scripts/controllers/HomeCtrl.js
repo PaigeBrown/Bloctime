@@ -25,7 +25,10 @@
 
          $scope.$watch('timer.clock', function(val1, val2) {
            console.log(val1);
+
              if(val1 == 0) {
+               mySound.stop();
+               console.log("ding");
                  mySound.play();
              }
          });
