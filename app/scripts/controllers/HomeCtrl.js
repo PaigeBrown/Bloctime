@@ -27,7 +27,7 @@
            console.log(val1);
 
              if(val1 == 0) {
-               mySound.stop();
+               mySound.load();
                console.log("ding");
                  mySound.play();
              }
