@@ -1,14 +1,39 @@
- <h1>Pomodoro Countdown</h1>
- <section class="container">
-        <h1 class="text-center"> {{ home.clock | timecode }} </h1>
-        
+<section class="container pull-left">
+
+    <br>
+    <br>
+
+    <h1> Task History </h1>
+
+    <form ng-submit="addTask()">
+        <div class="form-group">
+            <input ng-model="newText" />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-info">Add Task</button>
+        </div>
+    </form>
+
+    <h1> Task List </h1>
+
+    <h6 ng-repeat="t in tasks | orderBy: '-CreatedAt'">
+        {{ t.text }}
+    </h6>
+
+</section>
+
+
+<section class="container">
+  <h1> Pomodoro Countdown </h1>
+        <h1 class="text-center"> {{ home.timer.clock | timecode }} </h1>
     <div class="text-center">
 
-        <button type="button" class='btn btn-info btn-lg' ng-show="!home.timerRunning && !home.onBreak"  ng-click="home.startTimer()"> {{ home.buttonMsg }}</button>
+        <button type="button" class='btn btn-info btn-lg' ng-show="!home.timer.timerRunning && !home.timer.onBreak"  ng-click="home.timer.start()"> {{ home.timer.buttonMsg }}</button>
 
-        <button type="button" class='btn btn-warning btn-lg' ng-show="home.timerRunning"  ng-click="home.resetTimer()"> {{ home.buttonMsg }}</button>
+        <button type="button" class='btn btn-warning btn-lg' ng-show="home.timer.timerRunning"  ng-click="home.timer.reset()"> {{ home.timer.buttonMsg }}</button>
 
-        <button type="button" class='btn btn-primary btn-lg' ng-show="home.onBreak" ng-hide="!home.onBreak" ng-click="home.breakTimer()"> {{ home.breakMsg }}</button>
+        <button type="button" class='btn btn-primary btn-lg' ng-show="home.timer.onBreak && !home.timer.timerRunning" ng-hide="!home.timer.onBreak" ng-click="home.timer.break()"> {{ home.timer.breakMsg }}</button>
 
 
     </div>

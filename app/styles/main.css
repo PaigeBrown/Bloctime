@@ -3,3 +3,9 @@ body {
   background-image: url("/assets/images/backgroundForBloctime.jpg");
   font-family: 'IBM Plex Serif', serif;
   }
+
+.pull-left {
+  background-color: white;
+  overflow: scroll;
+  float: left !important;
+}

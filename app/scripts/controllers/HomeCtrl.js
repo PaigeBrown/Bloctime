@@ -1,76 +1,38 @@
 (function() {
-    function HomeCtrl($firebaseArray, $interval, $scope) {
-      this.clock = 2;
-      this.onBreak = false;
+    function HomeCtrl($scope, $firebaseArray, Timer) {
 
-      var completedSessions = 0;
+      var ref = firebase.database().ref();
+      $scope.tasks = $firebaseArray(ref);
 
-      this.timer = null;
-      this.buttonMsg = "Start Time";
-      this.breakMsg = "Start Break";
-      this.timerRunning = false;
+         $scope.addTask = function() {
+              $scope.tasks.$add({
+                  text: $scope.newText,
+                  CreatedAt: Date.now(),
+              });
 
-      this.startTimer = function(){
-        this.timerRunning = true;
-        this.buttonMsg = "Reset Time";
-        this.timer = $interval(function(){
-          this.clock -= 1;
-          if(this.clock == 0 && completedSessions == 3){
-            $interval.cancel(this.timer);
-            this.timerRunning = false;
-            this.breakMsg = "Start 30 Minute Break"
-            this.onBreak = true;
-            this.clock = 30;
-            completedSessions = 0;
-          }
-          else if(this.clock == 0) {
-            $interval.cancel(this.timer);
-            this.timerRunning = false;
-            this.onBreak = true;
-            this.clock = 5;
-            completedSessions ++;
-          }
-        }.bind(this), 1000);
-      }
+              if($scope.tasks.$add) {
+                 console.log("Message Saved");
+             }
+          };
 
-      this.resetTimer = function(){
-        if(angular.isDefined(this.timer)){
-          $interval.cancel(this.timer);
-          this.clock = 2;
-          this.timerRunning = false;
-          this.buttonMsg = "Start Time";
+         this.timer = Timer;
+
+         $scope.timer = Timer;
+
+         var mySound = new buzz.sound( "/assets/sounds/ding.mp3", {
+            preload: true
+         });
+
+         $scope.$watch('timer.clock', function(val1, val2) {
+           console.log(val1);
+             if(val1 == 0) {
+                 mySound.play();
+             }
+         });
+
         }
-      }
 
-      this.breakTimer = function() {
-        this.timerRunning= true;
-        this.onBreak = false;
-        this.buttonMsg = "Reset Time";
-        this.breakMsg = "Start Break";
-        this.timer = $interval(function (){
-          this.clock -=1;
-          if(this.clock == 0) {
-            $interval.cancel(this.timer);
-            this.timerRunning = false;
-            this.buttonMsg = "Start Time";
-            this.clock = 2;
-          }
-        }.bind(this), 1000);
-      }
-
-      var mySound = new buzz.sound( "/assets/music/Ding.mp3", {
-        preload: true
-      });
-
-      $scope.$watch('this.clock', function(clock){
-        if(this.clock == 0){
-          mySound.play();
-        }
-      });
-    }
-
-
-    angular
-        .module('Bloctime')
-        .controller('HomeCtrl', ['$scope', '$firebaseArray', '$interval', HomeCtrl]);
-})();
+     angular
+         .module('Bloctime')
+         .controller('HomeCtrl', ['$scope', '$firebaseArray', 'Timer', HomeCtrl]);
+ })();
