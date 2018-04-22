@@ -4,4 +4,5 @@ This app was created to follow the Pomodoro time management strategy of 25 minut
 
 I created this app using HTML, CSS, Angular JavaScript, and Firebase.
 
-<img src="/assets/images/Pomodoro screenshot.jpg">
+
+![alt text](/assets/images/PomodoroScreenshot.jpg)
